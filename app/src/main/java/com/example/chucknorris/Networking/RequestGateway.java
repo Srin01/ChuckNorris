@@ -9,7 +9,10 @@ import com.android.volley.toolbox.Volley;
 public class RequestGateway
 {
     private static RequestQueue requestQueue;
-    private RequestGateway(){}
+    private RequestGateway()
+    {
+
+    }
     public static void makeRequest(Request request, Context context)
     {
         if(requestQueue == null)

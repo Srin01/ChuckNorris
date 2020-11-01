@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,23 +27,64 @@ public class MainActivity extends AppCompatActivity
 {
     TextView textView;
     JokeExpert jokeExpert;
-    int index;
+    int index = 0;
+    int numberOfJokes;
+    EditText editText;
+    Button okayButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bindViews();
+    }
+
+    private void bindViews()
+    {
+        textView = findViewById(R.id.jokeTextView);
+        editText = findViewById(R.id.editText);
+        okayButton = findViewById(R.id.okay_button);
+        jokeExpert = new JokeExpert();
+    }
+
+    public void getLeftJoke(View view)
+    {
+        if(index <= 0)
+            index = numberOfJokes - 1;
+        textView.setText(jokeExpert.getJoke(index--));
+    }
+
+    public void getRightJoke(View view)
+    {
+        if(index >= numberOfJokes)
+            index = 0;
+        textView.setText(jokeExpert.getJoke(index++));
+    }
+
+    public void setNumberOfJokes(View view)
+    {
+        numberOfJokes = 2;
+        try
+        {
+            numberOfJokes = Integer.parseInt(editText.getText().toString());
+            URLs.setNumberOfJokes(numberOfJokes);
+        }
+        catch (Exception e)
+        {
+            URLs.setNumberOfJokes(numberOfJokes);
+            e.printStackTrace();
+        }
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                URLs.getUrl(),
+                URLs.getUrl(),          //destination
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray value = response.getJSONArray("value");
-                            for (int i = 0; i < 10; i++)
+                            for (int i = 0; i < numberOfJokes; i++)
                             {
                                 String joke = value.getJSONObject(i).getString("joke");
                                 jokeExpert.addJoke(joke);
@@ -57,30 +99,9 @@ public class MainActivity extends AppCompatActivity
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Something happened", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
                     }
                 });
         RequestGateway.makeRequest(jsonObjectRequest, this);
-    }
-
-    private void bindViews()
-    {
-        textView = findViewById(R.id.jokeTextView);
-        jokeExpert = new JokeExpert();
-        index = 0;
-    }
-
-    public void getLeftJoke(View view)
-    {
-        if(index <= 0)
-            index = 9;
-        textView.setText(jokeExpert.getJoke(index--));
-    }
-
-    public void getRightJoke(View view)
-    {
-        if(index >= 9)
-            index = 0;
-        textView.setText(jokeExpert.getJoke(index++));
     }
 }

@@ -14,7 +14,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"/>
 
     <Button
         android:id="@+id/leftButton"
@@ -24,9 +25,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/jokeTextView"
         android:layout_marginTop="25dp"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.3"
         android:onClick="getLeftJoke"
-        android:text="Left"/>
+        android:text="Previous"/>
 
     <Button
         android:id="@+id/rightButton"
@@ -36,9 +37,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/jokeTextView"
         android:layout_marginTop="25dp"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.7"
         android:onClick="getRightJoke"
-        android:text="Right"/>
+        android:text="Next"/>
 
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter no of jokes"
+        android:inputType="number"
+
+        android:maxLength="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/jokeTextView"
+        app:layout_constraintStart_toStartOf="@+id/jokeTextView"
+
+        app:layout_constraintTop_toBottomOf="@+id/jokeTextView"
+        app:layout_constraintVertical_bias="0.6" />
+
+    <Button
+        android:id="@+id/okay_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="okay"
+        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editText"
+
+        android:layout_marginTop="10dp"
+        android:onClick="setNumberOfJokes"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
